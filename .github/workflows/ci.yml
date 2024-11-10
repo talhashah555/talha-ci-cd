@@ -1,0 +1,55 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Docker Build
+        run: echo "This is docker build"
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Testing
+        run: echo "This is testing"
+      
+      - name: Development Test
+        run: echo "Tested for dev"
+
+      - name: Production Test
+        run: echo "Tested for prd"
+
+  push:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Pushing Changes
+        run: echo "This is pushing"
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: push
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploying
+        run: echo "This is deploying"
